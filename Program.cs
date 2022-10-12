@@ -7,8 +7,7 @@ int cols = int.Parse(Console.ReadLine()!);
 int[,] array = GetArray(rows, cols);
 PrintArray(array);
 Console.WriteLine();
-SortArrayRows(array);
-PrintArray(array);
+SumArrayRows(array);
 
 
 int[,] GetArray(int m, int n) {
@@ -30,23 +29,25 @@ void PrintArray (int[,] array) {
     }
 }
 
-void SortArrayRows(int[,] array) {
-    int min = 0;
-    int tmp = 0;
-
-    for (int i = 0; i < array.GetLength(0); i++) {
-        for (int j = 0; j < array.GetLength(1)-1; j++) {
-            min = j;
-            for (int m = j + 1; m < array.GetLength(1); m++) {
-                if (array[i, m] > array[i, min]) {
-                    min = m;
-                }
-            }
-            if (min!=i) {
-                tmp = array[i, j];
-                array[i, j] = array[i, min];
-                array[i, min] = tmp;
-            }
+void SumArrayRows(int[,] array) {
+    int[] tempArr = new int[array.GetLength(1)];
+    for (int i = 0; i < array.GetLength(0); i++) {        
+        int sum = 0;
+        for (int j = 0; j < array.GetLength(1); j++) {
+            sum += array[i, j];
+        }
+        for (int m = 0; m < tempArr.Length; m++) {
+            tempArr[i] = sum;
         }
     }
+    Console.WriteLine($"Sum in rows: [{String.Join(", ", tempArr)}]. ");
+    int result = tempArr[0];
+    int position = 0;
+    for (int n = 0; n < tempArr.Length; n++) {        
+        if (tempArr[n] < result) {
+            result = tempArr[n];
+            position = n;
+        }
+    }
+    Console.WriteLine($"Minimal sum in row #{position} of your array: [{result}]");
 }
