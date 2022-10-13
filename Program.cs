@@ -1,53 +1,49 @@
-﻿Console.Write("Enter number of rows of array: ");
-int rows = int.Parse(Console.ReadLine()!);
-
-Console.Write("Enter number of columns of array: ");
-int cols = int.Parse(Console.ReadLine()!);
-
-Console.WriteLine();
-int[,] arrayOne = GetArray(rows, cols);
+﻿int[, ,] arrayOne = new int[2, 2, 2];
+GetArray(arrayOne);
 PrintArray(arrayOne);
-Console.WriteLine();
-int[,] arrayTwo = GetArray(cols, rows);
-PrintArray(arrayTwo);
-Console.WriteLine();
-int[,] result = MultiplicationArrays(arrayOne, arrayTwo);
-PrintArray(result);
 
-
-
-int[,] GetArray(int m, int n) {
-    int[,] newArray = new int[m, n];
-    for (int i = 0; i < m; i++) {
-        for (int j = 0; j < n; j++) {
-            newArray[i,j] = new Random().Next(1, 26);
-        }
-    }
-    return newArray;
-}
-
-void PrintArray(int[,] array) {
-    for (int i = 0; i < array.GetLength(0); i++) {
-        for (int j = 0; j < array.GetLength(1); j++) {
-            Console.Write($"{array[i,j]} ");
-        }
-        Console.WriteLine();
-    }
-}
-
-int[,] MultiplicationArrays(int[,] arrayOne, int[,] arrayTwo) {
-    int[,] resultArray = new int[arrayOne.GetLength(0), arrayTwo.GetLength(1)];
-
-    if (arrayOne.GetLength(0) != arrayTwo.GetLength(1)) {
-        Console.WriteLine("Your matrixes are impossible to multiplicate");
-    } else {
-        for (int i = 0; i < arrayOne.GetLength(0); i++) {
-            for (int j = 0; j < arrayTwo.GetLength(1); j++) {
-                for (int moveIndex = 0; moveIndex < arrayTwo.GetLength(0); moveIndex++) {
-                    resultArray[i, j] += arrayOne[i, moveIndex] * arrayTwo[moveIndex, j];
+void GetArray(int[, ,] arrInput) {
+    int difNum = 0;
+    int[] arrayToGetIndexes = new int[
+                                    arrInput.GetLength(0) * 
+                                    arrInput.GetLength(1) * 
+                                    arrInput.GetLength(2)];
+    int count = 0;
+    
+    for (int i = 0; i < arrayToGetIndexes.Length; i++) {
+        arrayToGetIndexes[i] = new Random().Next(10, 100);
+        difNum = arrayToGetIndexes[i];
+        if (i >= 1) {
+            for (int j = 0; j < i; j++) {
+                if (arrayToGetIndexes[i] == arrayToGetIndexes[j]) {
+                    arrayToGetIndexes[i] = new Random().Next(10, 100);
+                    j = 0;
+                    difNum = arrayToGetIndexes[i];
+                } else {
+                    difNum = arrayToGetIndexes[i];
                 }
             }
         }
     }
-    return resultArray;
+
+    
+    for (int i = 0; i < arrInput.GetLength(0); i++) {
+        for (int j = 0; j < arrInput.GetLength(1); j++) {
+            for (int n = 0; n < arrInput.GetLength(2); n++) {             
+                arrInput[i,j,n] = arrayToGetIndexes[count];
+                count++;
+            }
+        }
+    }
+}
+
+void PrintArray(int[, ,] array) {
+    for (int i = 0; i < array.GetLength(0); i++) {
+        for (int j = 0; j < array.GetLength(1); j++) {
+            for (int n = 0; n < array.GetLength(2); n++) {
+                Console.Write($"{array[i,j,n]}({i},{j},{n}) ");
+            }
+        }
+        Console.WriteLine();
+    }
 }
