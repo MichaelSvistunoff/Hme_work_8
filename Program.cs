@@ -1,47 +1,35 @@
-﻿int[, ,] arrayOne = new int[2, 2, 2];
+﻿int[,] arrayOne = new int[4, 4];
+
 GetArray(arrayOne);
 PrintArray(arrayOne);
 
-void GetArray(int[, ,] arrInput) {
-    int difNum = 0;
-    int[] arrayToGetIndexes = new int[
-                                    arrInput.GetLength(0) * 
-                                    arrInput.GetLength(1) * 
-                                    arrInput.GetLength(2)];
-    int count = 0;
-    
-    for (int i = 0; i < arrayToGetIndexes.Length; i++) {
-        arrayToGetIndexes[i] = new Random().Next(10, 100);
-        difNum = arrayToGetIndexes[i];
-        if (i >= 1) {
-            for (int j = 0; j < i; j++) {
-                if (arrayToGetIndexes[i] == arrayToGetIndexes[j]) {
-                    arrayToGetIndexes[i] = new Random().Next(10, 100);
-                    j = 0;
-                    difNum = arrayToGetIndexes[i];
-                } else {
-                    difNum = arrayToGetIndexes[i];
-                }
-            }
-        }
-    }
+void GetArray(int[,] arrInput) {
+    int count = 1;
+    int size = arrInput.GetLength(0) * arrInput.GetLength(1);
+    int i = 0;
+    int j = 0;
 
-    
-    for (int i = 0; i < arrInput.GetLength(0); i++) {
-        for (int j = 0; j < arrInput.GetLength(1); j++) {
-            for (int n = 0; n < arrInput.GetLength(2); n++) {             
-                arrInput[i,j,n] = arrayToGetIndexes[count];
-                count++;
-            }
-        }
+    while (count <= size) {        
+        arrInput[i,j] = count++;  
+        if (i <= j + 1 && i + j < arrInput.GetLength(1) - 1) {
+            j++;
+        } else if (i < j && i + j >= arrInput.GetLength(0) - 1) {
+            i++;
+        } else if (i >= j && i + j > arrInput.GetLength(1) - 1) {
+            j--;
+        } else {
+            i--;
+        }  
     }
 }
 
-void PrintArray(int[, ,] array) {
+void PrintArray(int[,] array) {
     for (int i = 0; i < array.GetLength(0); i++) {
         for (int j = 0; j < array.GetLength(1); j++) {
-            for (int n = 0; n < array.GetLength(2); n++) {
-                Console.Write($"{array[i,j,n]}({i},{j},{n}) ");
+            if (array[i,j]<10) {
+                Console.Write($"0{array[i,j]} ");
+            } else {                
+                Console.Write($"{array[i,j]} ");
             }
         }
         Console.WriteLine();
