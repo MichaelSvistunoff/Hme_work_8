@@ -38,14 +38,10 @@ void PrintArray(int[,] array) {
 int[,] MultiplicationArrays(int[,] arrayOne, int[,] arrayTwo) {
     int[,] resultArray = new int[arrayOne.GetLength(0), arrayTwo.GetLength(1)];
 
-    if (arrayOne.GetLength(0) != arrayTwo.GetLength(1)) {
-        Console.WriteLine("Your matrixes are impossible to multiplicate");
-    } else {
-        for (int i = 0; i < arrayOne.GetLength(0); i++) {
-            for (int j = 0; j < arrayTwo.GetLength(1); j++) {
-                for (int moveIndex = 0; moveIndex < arrayTwo.GetLength(0); moveIndex++) {
-                    resultArray[i, j] += arrayOne[i, moveIndex] * arrayTwo[moveIndex, j];
-                }
+    for (int i = 0; i < arrayOne.GetLength(0); i++) {
+        for (int j = 0; j < arrayTwo.GetLength(1); j++) {
+            for (int moveIndex = 0; moveIndex < arrayTwo.GetLength(0); moveIndex++) {
+                resultArray[i, j] += arrayOne[i, moveIndex] * arrayTwo[moveIndex, j];
             }
         }
     }
